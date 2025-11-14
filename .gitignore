@@ -1,6 +1,5 @@
-# Model files (too large for GitHub)
-best_b4/
-*.h5
+# Model files now tracked with Git LFS
+# *.h5 files are tracked by Git LFS
 
 # Python
 __pycache__/
