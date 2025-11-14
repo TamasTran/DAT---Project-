@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nhận diện bệnh lá Sắn</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+
+<body>
+  <main class="container">
+    <header>
+      <h1>Nhận diện bệnh lá Sắn</h1>
+      <p>
+        Model: <code>best_b4.h5</code> • Các lớp: {{ class_names | join(', ') }}
+      </p>
+    </header>
+
+    <section class="panel">
+      <form id="uploadForm">
+        <h2>1. Chọn ảnh hoặc chụp mới</h2>
+
+        <label class="file-input">
+          <span>Tải ảnh từ thư viện hoặc dùng camera điện thoại</span>
+          <input type="file" id="imageInput" accept="image/*" />
+        </label>
+
+        <div class="camera-controls" id="cameraControls">
+          <button type="button" id="startCameraBtn">Bật camera</button>
+          <button type="button" id="captureBtn" disabled>Chụp ảnh</button>
+          <button type="button" id="stopCameraBtn" disabled>Tắt camera</button>
+        </div>
+
+        <p id="cameraWarning" class="notice hidden"></p>
+
+        <video id="cameraStream" playsinline autoplay muted hidden></video>
+        <canvas id="captureCanvas" hidden></canvas>
+
+        <div class="preview" id="previewArea">
+          <img id="previewImage" alt="Xem trước" hidden />
+          <p id="previewPlaceholder">Chưa có ảnh được chọn.</p>
+        </div>
+
+        <button type="submit" class="primary-btn">2. Dự đoán</button>
+      </form>
+    </section>
+
+    <section id="resultSection" class="panel hidden">
+      <h2>Kết quả dự đoán</h2>
+      <p class="result-label">
+        Bệnh: <span id="resultLabel"></span>
+      </p>
+      <p>
+        Độ tự tin: <span id="resultConfidence"></span>
+      </p>
+      <div id="probabilityList" class="prob-list"></div>
+    </section>
+
+    <section class="panel info">
+      <h2>Mẹo sử dụng</h2>
+      <ul>
+        <li>Dùng ánh sáng tự nhiên và giữ toàn bộ lá trong khung hình.</li>
+        <li>Đảm bảo thiết bị và server chung mạng nội bộ/Wi-Fi.</li>
+        <li>
+          Trên mobile, nút “Chọn ảnh” cho phép dùng camera hoặc thư viện tùy theo hệ điều hành.
+        </li>
+      </ul>
+    </section>
+    <section class="panel legend-panel">
+      <h2>Chu thich cac benh</h2>
+      <ul class="disease-legend">
+        <li>
+          <h3>Cassava Bacterial Blight (CBB)</h3>
+          <p>
+            Benh thoi chon do vi khuan Xanthomonas gay loang bac tren la, lam he than bi nut va co the lam heo canh.
+          </p>
+        </li>
+        <li>
+          <h3>Cassava Brown Streak Disease (CBSD)</h3>
+          <p>
+            Virus CBSV/UCBSV lam gan la sam den, la bi xoan va khoai bi soc nau, khi nang se ton that tinh bot nghiem trong.
+          </p>
+        </li>
+        <li>
+          <h3>Cassava Green Mottle (CGM)</h3>
+          <p>
+            Benh nam dom xanh nhat do CGMV gay bien dang la, giam quang hop va thuong lan nhanh neu khong loai bo la nhiem som.
+          </p>
+        </li>
+        <li>
+          <h3>Cassava Mosaic Disease (CMD)</h3>
+          <p>
+            Nhom virus kham la gay hoa tiet vang xanh, la xoan nho lai va cay suy yeu, giam nang suat dao dong 20-90%.
+          </p>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script>
+    // eslint-disable-next-line
+    window.CASSAVA_CLASS_NAMES = {{ class_names | tojson | safe }};
+  </script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>
