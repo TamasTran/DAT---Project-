@@ -509,5 +509,3 @@ print(f"Độ tự tin: {np.max(pred[0]):.2%}")
 - **File**: best_b4/best_b4.h5 (~190 MB)
 
 ---
-
-**Last Updated**: March 2026
